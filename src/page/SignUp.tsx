@@ -1,5 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import Navbar from "../layout/Navbar";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -90,6 +91,14 @@ const SignUp = () => {
             >
               Sign Up
             </button>
+          </div>
+          <div className="text-center">
+            <p>
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-500 hover:underline">
+                Login
+              </Link>
+            </p>
           </div>
         </form>
       </div>
