@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Navbar = () => {
   return (
     <nav className="bg-gray-800">
@@ -25,6 +27,18 @@ const Navbar = () => {
             </a>
           </div>
           <div className="flex">
+            <a
+              href="/signup"
+              className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Sign Up
+            </a>
+            <a
+              href="/login"
+              className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Login
+            </a>
             <a
               href="/logout"
               className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium"
