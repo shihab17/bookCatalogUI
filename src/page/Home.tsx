@@ -1,7 +1,9 @@
+import Book from "../components/ui/Book/Book";
+
 const Home = () => {
     return (
         <div>
-            <h1>Home</h1>
+            <Book></Book>
         </div>
     );
 };
