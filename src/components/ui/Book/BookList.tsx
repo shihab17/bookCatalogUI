@@ -7,25 +7,12 @@ import { IBook } from "../../../types/globalTypes";
 import { useGetBooksQuery } from "../../../redux/api/apiSlice";
 const BookList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data } = useGetBooksQuery(undefined);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  const filteredData = data?.data.filter((item: { title: string }) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  const currentItems = filteredData
-    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  // const totalPages = Math.ceil(data?.data.length / itemsPerPage);
-  const totalPages = data?.meta?.page;
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading } = useGetBooksQuery({page: currentPage, searchTerm: searchTerm, limit: itemsPerPage});
+  const totalItems = data?.meta?.total ?? 1;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleChangePage = (page: number) => {
     setCurrentPage(page);
@@ -53,6 +40,7 @@ const BookList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      {isLoading && <p>Loading...</p>}
       <table className="table-auto w-full">
         <thead>
           <tr>
@@ -64,8 +52,8 @@ const BookList = () => {
           </tr>
         </thead>
         <tbody>
-          {currentItems &&
-            currentItems.map((book: IBook) => (
+          {!isLoading && data?.data &&
+            data?.data.map((book: IBook) => (
               <tr key={book._id}>
                 <td className="border px-4 py-2">{book.title}</td>
                 <td className="border px-4 py-2">{book.author}</td>
