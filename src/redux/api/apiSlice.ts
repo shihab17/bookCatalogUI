@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IBook } from '../../types/globalTypes';
 interface GetBooksParams {
   page?: number;
   searchTerm?: string;
@@ -25,7 +26,14 @@ export const api = createApi({
     singleBook: builder.query({
       query: (id: string) => `/book/${id}`,
     }),
+    postBook: builder.mutation({
+      query: ({data}: { data: IBook }) => ({
+        url: `/book`,
+        method: 'POST',
+        body: data
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery } = api;
+export const { useGetBooksQuery, useSingleBookQuery, usePostBookMutation } = api;

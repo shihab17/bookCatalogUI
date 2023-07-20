@@ -27,16 +27,16 @@ const BookList = () => {
     setCurrentPage(page);
   };
   ``;
-  const handleUpdate = (id: string) => {
-    console.log(`Edit item with ID ${id}`);
+  const handleUpdate = (id?: string) => {
+    // console.log(`Edit item with ID ${id}`);
   };
 
-  const handleView = (id: string) => {
-    console.log(`View item with ID ${id}`);
+  const handleView = (id?: string) => {
+    // console.log(`View item with ID ${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    console.log(`Delete item with ID ${id}`);
+  const handleDelete = (id?: string) => {
+    // console.log(`Delete item with ID ${id}`);
   };
   return (
     <div>
@@ -93,19 +93,19 @@ const BookList = () => {
                 <td className="border px-4 py-2 text-right">
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handleUpdate(book._id)}
+                    onClick={() => handleUpdate(book?._id)}
                   >
                     <FaEdit />
                   </button>
                   <button
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handleView(book._id)}
+                    onClick={() => handleView(book?._id)}
                   >
                     <FaEye />
                   </button>
                   <button
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDelete(book._id)}
+                    onClick={() => handleDelete(book?._id)}
                   >
                     <FaTrash />
                   </button>

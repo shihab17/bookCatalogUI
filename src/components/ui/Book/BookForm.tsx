@@ -1,12 +1,52 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { FaArrowLeft } from "react-icons/fa";
+import { IBook } from "../../../types/globalTypes";
+import { useState } from "react";
+import { usePostBookMutation } from "../../../redux/api/apiSlice";
 
 interface BookFormProps {
   onCancel: () => void;
 }
 const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [postBook, {isLoading, isError, isSuccess}] = usePostBookMutation();
+  console.log(isLoading, isError, isSuccess);
+  const [formData, setFormData] = useState<IBook>({
+    title: "",
+    author: "",
+    genre: "",
+    publicationDate: ""
+  });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const formObject: IBook = {
+      title: "",
+      author: "",
+      genre: "",
+      publicationDate: ""
+    }; // Use Partial<IBook> to initialize as an empty object
+
+    formData.forEach((value, key) => {
+      // Use type assertion to indicate that key is a valid property of IBook
+      formObject[key as keyof IBook] = value as any;
+    });
+
+    // Now you have all form input values in the formObject
+    console.log("Form data:", formObject);
+    try {
+      // Await the postBook mutation to handle the Promise
+      const options = {
+        data : formObject
+      }
+      const response = await postBook(options);
+      console.log("Post response:", response);
+    } catch (error) {
+      console.error("Error while posting book:", error);
+    }
   };
 
   return (
