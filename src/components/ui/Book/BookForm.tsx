@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -5,18 +7,19 @@ import { FaArrowLeft } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 import { useState } from "react";
 import { usePostBookMutation } from "../../../redux/api/apiSlice";
-
+import { useToasts } from "react-toast-notifications";
 interface BookFormProps {
   onCancel: () => void;
 }
 const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
-  const [postBook, {isLoading, isError, isSuccess}] = usePostBookMutation();
+  const { addToast } = useToasts();
+  const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
   console.log(isLoading, isError, isSuccess);
   const [formData, setFormData] = useState<IBook>({
     title: "",
     author: "",
     genre: "",
-    publicationDate: ""
+    publicationDate: "",
   });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,25 +30,28 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
       title: "",
       author: "",
       genre: "",
-      publicationDate: ""
+      publicationDate: "",
     }; // Use Partial<IBook> to initialize as an empty object
-
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     formData.forEach((value, key) => {
-      // Use type assertion to indicate that key is a valid property of IBook
       formObject[key as keyof IBook] = value as any;
     });
-
-    // Now you have all form input values in the formObject
     console.log("Form data:", formObject);
     try {
-      // Await the postBook mutation to handle the Promise
       const options = {
-        data : formObject
-      }
+        data: formObject,
+      };
       const response = await postBook(options);
       console.log("Post response:", response);
+      if ("error" in response) {
+        addToast("Failed to submit book!", { appearance: "error" });
+        console.log(response.error);
+      } else {
+        console.log("Book submitted successfully!");
+        addToast("Successfully book added!", { appearance: "success" });
+      }
     } catch (error) {
-      console.error("Error while posting book:", error);
+      console.log("err", error);
     }
   };
 
@@ -65,20 +71,48 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
       <h1 className="text-2xl font-bold mb-4">Book Form</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="title" className="block font-bold mb-2">Title:</label>
-          <input type="text" id="title" name="title" className="w-full border border-gray-400 p-2 rounded" />
+          <label htmlFor="title" className="block font-bold mb-2">
+            Title:
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            className="w-full border border-gray-400 p-2 rounded"
+          />
         </div>
         <div>
-          <label htmlFor="author" className="block font-bold mb-2">Author:</label>
-          <input type="text" id="author" name="author" className="w-full border border-gray-400 p-2 rounded" />
+          <label htmlFor="author" className="block font-bold mb-2">
+            Author:
+          </label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            className="w-full border border-gray-400 p-2 rounded"
+          />
         </div>
         <div>
-          <label htmlFor="genre" className="block font-bold mb-2">Genre:</label>
-          <input type="text" id="genre" name="genre" className="w-full border border-gray-400 p-2 rounded" />
+          <label htmlFor="genre" className="block font-bold mb-2">
+            Genre:
+          </label>
+          <input
+            type="text"
+            id="genre"
+            name="genre"
+            className="w-full border border-gray-400 p-2 rounded"
+          />
         </div>
         <div>
-          <label htmlFor="publicationDate" className="block font-bold mb-2">Publication Date:</label>
-          <input type="date" id="publicationDate" name="publicationDate" className="w-full border border-gray-400 p-2 rounded" />
+          <label htmlFor="publicationDate" className="block font-bold mb-2">
+            Publication Date:
+          </label>
+          <input
+            type="date"
+            id="publicationDate"
+            name="publicationDate"
+            className="w-full border border-gray-400 p-2 rounded"
+          />
         </div>
         <div className="col-span-2">
           <button

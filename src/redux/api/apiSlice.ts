@@ -7,6 +7,9 @@ interface GetBooksParams {
   genre?: string;
   publicationYear?: string;
 }
+type PostBookResponse = {
+  data: IBook; // Change 'IBook' to the actual type of the response data
+};
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/v1' }),
@@ -26,12 +29,16 @@ export const api = createApi({
     singleBook: builder.query({
       query: (id: string) => `/book/${id}`,
     }),
-    postBook: builder.mutation({
+    postBook: builder.mutation<PostBookResponse, { data: IBook }>({
       query: ({data}: { data: IBook }) => ({
         url: `/book`,
         method: 'POST',
         body: data
       }),
+      transformResponse: (response: unknown): PostBookResponse => {
+        console.log("Transformed response:", response);
+        return response as PostBookResponse;
+      },
     }),
   }),
 });
