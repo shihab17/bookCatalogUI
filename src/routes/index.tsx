@@ -4,6 +4,7 @@ import App from "../App";
 import NotFound from "../page/NotFound";
 import SignUp from "../page/SignUp";
 import Login from "../page/Login";
+import BookDetails from "../components/ui/Book/BookDetails";
 
 const routes = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const routes = createBrowserRouter([
             {
                 path: '/home',
                 element: <Home/>
+            },
+            {
+                path: '/book/:id',
+                element: <BookDetails/>
             }
         ]
     },

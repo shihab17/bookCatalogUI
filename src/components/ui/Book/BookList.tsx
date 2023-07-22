@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 import { useGetBooksQuery } from "../../../redux/api/apiSlice";
+import { useNavigate } from "react-router-dom";
 const BookList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,12 +29,11 @@ const BookList = () => {
     setCurrentPage(page);
   };
   ``;
-  const handleUpdate = (id?: string) => {
-    // console.log(`Edit item with ID ${id}`);
-  };
 
   const handleView = (id?: string) => {
-    // console.log(`View item with ID ${id}`);
+    if(id){
+      navigate(`/book/${id}`);
+    }
   };
 
   const handleDelete = (id?: string) => {
