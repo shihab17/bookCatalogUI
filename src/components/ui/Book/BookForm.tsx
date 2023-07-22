@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { FaArrowLeft } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
-import { usePostBookMutation } from "../../../redux/api/apiSlice";
 import { useToasts } from "react-toast-notifications";
+import { usePostBookMutation } from "../../../redux/features/book/bookApi";
 interface BookFormProps {
   onCancel: () => void;
 }

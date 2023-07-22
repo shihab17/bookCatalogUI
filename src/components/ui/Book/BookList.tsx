@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useState } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
-import { useGetBooksQuery } from "../../../redux/api/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { useGetBooksQuery } from "../../../redux/features/book/bookApi";
 const BookList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const BookList = () => {
   ``;
 
   const handleView = (id?: string) => {
-    if(id){
+    if (id) {
       navigate(`/book/${id}`);
     }
   };

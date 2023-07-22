@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom";
-import { useSingleBookQuery } from "../../../redux/api/apiSlice";
+import { useSingleBookQuery } from "../../../redux/features/book/bookApi";
 
 const BookDetails = () => {
     const param = useParams();
