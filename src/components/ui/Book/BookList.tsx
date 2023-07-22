@@ -92,12 +92,6 @@ const BookList = () => {
                 <td className="border px-4 py-2">{book.publicationDate}</td>
                 <td className="border px-4 py-2 text-right">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handleUpdate(book?._id)}
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
                     onClick={() => handleView(book?._id)}
                   >

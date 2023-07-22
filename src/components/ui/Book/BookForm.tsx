@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { FaArrowLeft } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
-import { useState } from "react";
 import { usePostBookMutation } from "../../../redux/api/apiSlice";
 import { useToasts } from "react-toast-notifications";
 interface BookFormProps {
@@ -15,12 +14,6 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
   const { addToast } = useToasts();
   const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
   console.log(isLoading, isError, isSuccess);
-  const [formData, setFormData] = useState<IBook>({
-    title: "",
-    author: "",
-    genre: "",
-    publicationDate: "",
-  });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -49,6 +42,7 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
       } else {
         console.log("Book submitted successfully!");
         addToast("Successfully book added!", { appearance: "success" });
+        onCancel(); 
       }
     } catch (error) {
       console.log("err", error);
