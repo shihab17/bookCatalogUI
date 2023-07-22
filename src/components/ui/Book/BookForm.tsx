@@ -7,6 +7,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 // import { useToasts } from "react-toast-notifications";
 import { usePostBookMutation } from "../../../redux/features/book/bookApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface BookFormProps {
   onCancel: () => void;
 }
@@ -39,10 +41,16 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
       if ("error" in response) {
         // addToast("Failed to submit book!", { appearance: "error" });
         console.log(response.error);
+        toast.error("Failed to submit book", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       } else {
         console.log("Book submitted successfully!");
         // addToast("Successfully book added!", { appearance: "success" });
-        onCancel(); 
+        toast.success("Successfully book added!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        onCancel();
       }
     } catch (error) {
       console.log("err", error);

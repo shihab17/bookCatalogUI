@@ -78,11 +78,17 @@ const BookDetails = () => {
       if ("error" in response) {
         // addToast("Failed to updated review!", { appearance: "error" });
         console.log(response.error);
+        toast.error("Failed to updated review!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       } else {
         console.log("Book submitted successfully!");
         // addToast("Successfully book updated your review!", {
         //   appearance: "success",
         // });
+        toast.success("Successfully book updated review!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
     } catch (error) {
       console.log("err", error);
