@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/await-thenable */
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../layout/Navbar";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/features/user/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const dispatch = useDispatch();
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -16,11 +19,13 @@ const Login = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Perform login logic here
-    console.log("Login form submitted");
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Reset the form
+
+    const userData = {
+      email,
+      password,
+    };
+    console.log("🚀 ~ file: login.tsx:27 ~ handleSubmit ~ userData:", userData)
+    dispatch(login(userData) as any);
     setEmail("");
     setPassword("");
   };

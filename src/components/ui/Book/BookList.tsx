@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 import { useNavigate } from "react-router-dom";

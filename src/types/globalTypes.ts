@@ -5,3 +5,16 @@ export interface IBook {
   genre: string;
   publicationDate: string;
 }
+export interface IUser {
+  email: string;
+  password: string;
+}
+
+export interface IApiResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  data: {
+    accessToken: string;
+  };
+}
