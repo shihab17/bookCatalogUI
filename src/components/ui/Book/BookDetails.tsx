@@ -8,10 +8,11 @@ import {
 } from "../../../redux/features/book/bookApi";
 import { useAppSelector } from "../../../redux/hooks";
 import { IBook, IReview } from "../../../types/globalTypes";
-import { useToasts } from "react-toast-notifications";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const BookDetails = () => {
-  const { addToast } = useToasts();
   const [updateBook] = useUpdateBookMutation();
   const navigate = useNavigate();
   const param = useParams();
@@ -40,11 +41,17 @@ const BookDetails = () => {
       const response = await updateBook({ id: param.id!, data: formObject });
       console.log("update response:", response);
       if ("error" in response) {
-        addToast("Failed to updated book!", { appearance: "error" });
+        // addToast("Failed to updated book!", { appearance: "error" });
+        toast.success('Toast notification message', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         console.log(response.error);
       } else {
         console.log("Book submitted successfully!");
-        addToast("Successfully book updated!", { appearance: "success" });
+        // addToast("Successfully book updated!", { appearance: "success" });
+        toast.success('Successfully book updated!', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         navigate("/home");
       }
     } catch (error) {
@@ -69,13 +76,13 @@ const BookDetails = () => {
       const response = await updateBook({ id: param.id!, data: formObject });
       console.log("Review response:", response);
       if ("error" in response) {
-        addToast("Failed to updated review!", { appearance: "error" });
+        // addToast("Failed to updated review!", { appearance: "error" });
         console.log(response.error);
       } else {
         console.log("Book submitted successfully!");
-        addToast("Successfully book updated your review!", {
-          appearance: "success",
-        });
+        // addToast("Successfully book updated your review!", {
+        //   appearance: "success",
+        // });
       }
     } catch (error) {
       console.log("err", error);

@@ -5,13 +5,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { FaArrowLeft } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
-import { useToasts } from "react-toast-notifications";
+// import { useToasts } from "react-toast-notifications";
 import { usePostBookMutation } from "../../../redux/features/book/bookApi";
 interface BookFormProps {
   onCancel: () => void;
 }
 const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
   console.log(isLoading, isError, isSuccess);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,11 +37,11 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
       const response = await postBook(options);
       console.log("Post response:", response);
       if ("error" in response) {
-        addToast("Failed to submit book!", { appearance: "error" });
+        // addToast("Failed to submit book!", { appearance: "error" });
         console.log(response.error);
       } else {
         console.log("Book submitted successfully!");
-        addToast("Successfully book added!", { appearance: "success" });
+        // addToast("Successfully book added!", { appearance: "success" });
         onCancel(); 
       }
     } catch (error) {
