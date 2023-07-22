@@ -6,10 +6,12 @@ import routes from "./routes/index.tsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.ts";
 // import { ToastProvider } from "react-toast-notifications";
+import { ToastContainer } from "react-toastify";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-        <RouterProvider router={routes} />
+      <ToastContainer position="top-right" />
+      <RouterProvider router={routes} />
     </Provider>
   </React.StrictMode>
 );
