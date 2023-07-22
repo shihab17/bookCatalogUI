@@ -16,5 +16,6 @@ export interface IApiResponse {
   message: string;
   data: {
     accessToken: string;
+    userId: string;
   };
 }

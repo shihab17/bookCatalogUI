@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IApiResponse, IUser } from "../../../types/globalTypes";
 
 interface IUserState {
+  userId: string;
   accessToken: string | null;
   isLoading: boolean;
   isError: boolean;
@@ -10,6 +11,7 @@ interface IUserState {
 }
 
 const initialUserState: IUserState = {
+  userId: '',
   accessToken: null,
   isLoading: false,
   isError: false,
@@ -40,7 +42,7 @@ export const login = createAsyncThunk(
     if (!response.ok) {
       throw new Error(apiResponse.message); // Throw the error directly instead of using rejectWithValue
     }
-    return apiResponse.data.accessToken;
+    return apiResponse.data;
   }
 );
 const userSlice = createSlice({
@@ -54,7 +56,8 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        state.accessToken = action.payload;
+        state.accessToken = action.payload.accessToken;
+        state.userId = action.payload.userId;
         state.error = null;
         state.isError = false;
         state.isLoading = false;
@@ -64,6 +67,7 @@ const userSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.accessToken = null;
+        state.userId = '';
         state.error = action.payload ?? "An error occurred during login.";
         state.isError = true;
         state.isLoading = false;

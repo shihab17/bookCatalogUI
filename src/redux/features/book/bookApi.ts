@@ -3,8 +3,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { IBook } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
-import { RootState } from "../../store";
-const getAuthorizationToken = (state: RootState) => state.user.accessToken;
 interface GetBooksParams {
     page?: number;
     searchTerm?: string;
@@ -47,14 +45,15 @@ const bookApi = api.injectEndpoints({
           }),
           invalidatesTags: ['books']
         }),
-        updateBook: builder.mutation<PostBookResponse, { data: IBook }>({
+        updateBook: builder.mutation<PostBookResponse, { id: string, data: IBook }>({
           query: ({ id, data }: { id: string; data: IBook }) => ({
             url: `/book/${id}`,
             method: "PUT",
             body: data,
           }),
+          invalidatesTags: ['books']
         }),
       }),
 })
 
-export const {useGetBooksQuery, useSingleBookQuery, usePostBookMutation } = bookApi;
+export const {useGetBooksQuery, useSingleBookQuery, usePostBookMutation, useUpdateBookMutation } = bookApi;
