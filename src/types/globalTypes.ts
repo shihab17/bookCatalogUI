@@ -19,3 +19,6 @@ export interface IApiResponse {
     userId: string;
   };
 }
+export type IReview = {
+  text: string;
+}
