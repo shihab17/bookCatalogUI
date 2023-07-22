@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -5,11 +7,14 @@ import { useState } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 import { useNavigate } from "react-router-dom";
-import { useGetBooksQuery } from "../../../redux/features/book/bookApi";
+import { useGetBooksQuery, useRemoveBookMutation } from "../../../redux/features/book/bookApi";
 import { useAppSelector } from "../../../redux/hooks";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const BookList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { accessToken } = useAppSelector((state) => state.user);
+  const { accessToken, userId } = useAppSelector((state) => state.user);
+  const [removeBook] = useRemoveBookMutation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(5);
@@ -38,8 +43,25 @@ const BookList = () => {
     }
   };
 
-  const handleDelete = (id?: string) => {
-    console.log(`Delete item with ID ${id!}`);
+  const handleDelete = async(id?: string) => {
+    const shouldDelete = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+
+    if (shouldDelete && id) {
+      const response = await removeBook(id);
+      if ("error" in response) {
+        console.log(response.error);
+        toast.error("Failed to delete book", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        console.log("Book deleted successfully!");
+        toast.success("Successfully book deleted!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    }
   };
   return (
     <div>
@@ -102,7 +124,12 @@ const BookList = () => {
                   </button>
                   {accessToken && (
                     <button
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    className={`${
+                      book.createdBy == userId
+                        ? "bg-red-500 hover:bg-red-700"
+                        : "bg-red-300 cursor-not-allowed"
+                    } text-white font-bold py-2 px-4 rounded`}
+                      disabled = {book.createdBy != userId}
                       onClick={() => handleDelete(book?._id)}
                     >
                       <FaTrash />

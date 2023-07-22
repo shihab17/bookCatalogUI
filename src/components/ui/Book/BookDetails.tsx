@@ -42,7 +42,7 @@ const BookDetails = () => {
       console.log("update response:", response);
       if ("error" in response) {
         // addToast("Failed to updated book!", { appearance: "error" });
-        toast.success('Toast notification message', {
+        toast.error('Failed to updated book', {
           position: toast.POSITION.TOP_RIGHT,
         });
         console.log(response.error);

@@ -4,6 +4,7 @@ export interface IBook {
   author: string;
   genre: string;
   publicationDate: string;
+  createdBy?: string;
 }
 export interface IUser {
   email: string;
