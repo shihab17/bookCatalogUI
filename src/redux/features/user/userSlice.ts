@@ -28,7 +28,7 @@ const initialUserState: IUserState = {
 export const login = createAsyncThunk(
   "user/loginUser",
   async (userData: IUser) => {
-    const response = await fetch(`http://localhost:5000/api/v1/auth/login`, {
+    const response = await fetch(`https://book-api-shihab17.vercel.app/api/v1/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

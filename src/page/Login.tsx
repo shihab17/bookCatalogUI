@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/await-thenable */
@@ -6,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/features/user/userSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ const Login = () => {
       password,
     };
     try {
-      const actionResult = await dispatch(login(userData) as any);
-      const accessToken = unwrapResult(actionResult);
+      await dispatch(login(userData) as any);
       // Redirect to the desired page after successful login
       navigate("/home"); // Replace "/home" with the path of the page you want to redirect to
 

@@ -6,8 +6,10 @@ import { FaEye, FaTrash } from "react-icons/fa";
 import { IBook } from "../../../types/globalTypes";
 import { useNavigate } from "react-router-dom";
 import { useGetBooksQuery } from "../../../redux/features/book/bookApi";
+import { useAppSelector } from "../../../redux/hooks";
 const BookList = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { accessToken } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(5);
@@ -98,12 +100,14 @@ const BookList = () => {
                   >
                     <FaEye />
                   </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDelete(book?._id)}
-                  >
-                    <FaTrash />
-                  </button>
+                  {accessToken && (
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleDelete(book?._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
