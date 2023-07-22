@@ -81,6 +81,7 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
             id="title"
             name="title"
             className="w-full border border-gray-400 p-2 rounded"
+            required
           />
         </div>
         <div>
@@ -92,6 +93,7 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
             id="author"
             name="author"
             className="w-full border border-gray-400 p-2 rounded"
+            required
           />
         </div>
         <div>
@@ -103,6 +105,7 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
             id="genre"
             name="genre"
             className="w-full border border-gray-400 p-2 rounded"
+            required
           />
         </div>
         <div>
@@ -114,6 +117,7 @@ const BookForm: React.FC<BookFormProps> = ({ onCancel }) => {
             id="publicationDate"
             name="publicationDate"
             className="w-full border border-gray-400 p-2 rounded"
+            required
           />
         </div>
         <div className="col-span-2">

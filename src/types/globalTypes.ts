@@ -23,3 +23,8 @@ export interface IApiResponse {
 export type IReview = {
   text: string;
 }
+export type INewUser = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

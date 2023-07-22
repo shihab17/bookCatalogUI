@@ -8,15 +8,17 @@ import {
 } from "../../../redux/features/book/bookApi";
 import { useAppSelector } from "../../../redux/hooks";
 import { IBook, IReview } from "../../../types/globalTypes";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BookDetails = () => {
   const [updateBook] = useUpdateBookMutation();
   const navigate = useNavigate();
   const param = useParams();
-  const { data, isLoading } = useSingleBookQuery(param.id!);
+  const { data, isLoading } = useSingleBookQuery(param.id!, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 10000,
+  });
   console.log(data?.data);
   const { userId } = useAppSelector((state) => state.user);
   const isBookCreatedByUser = data?.data?.createdBy === userId;
@@ -42,14 +44,14 @@ const BookDetails = () => {
       console.log("update response:", response);
       if ("error" in response) {
         // addToast("Failed to updated book!", { appearance: "error" });
-        toast.error('Failed to updated book', {
+        toast.error("Failed to updated book", {
           position: toast.POSITION.TOP_RIGHT,
         });
         console.log(response.error);
       } else {
         console.log("Book submitted successfully!");
         // addToast("Successfully book updated!", { appearance: "success" });
-        toast.success('Successfully book updated!', {
+        toast.success("Successfully book updated!", {
           position: toast.POSITION.TOP_RIGHT,
         });
         navigate("/home");
@@ -115,6 +117,7 @@ const BookDetails = () => {
                   defaultValue={data?.data?.title}
                   disabled={!isBookCreatedByUser}
                   className="w-full border border-gray-400 p-2 rounded"
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -128,6 +131,7 @@ const BookDetails = () => {
                   defaultValue={data?.data?.author}
                   disabled={!isBookCreatedByUser}
                   className="w-full border border-gray-400 p-2 rounded"
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -141,6 +145,7 @@ const BookDetails = () => {
                   defaultValue={data?.data?.genre}
                   disabled={!isBookCreatedByUser}
                   className="w-full border border-gray-400 p-2 rounded"
+                  required
                 />
               </div>
               <div>
@@ -157,6 +162,7 @@ const BookDetails = () => {
                   defaultValue={data?.data?.publicationDate}
                   disabled={!isBookCreatedByUser}
                   className="w-full border border-gray-400 p-2 rounded"
+                  required
                 />
               </div>
               {isBookCreatedByUser && (

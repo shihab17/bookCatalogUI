@@ -1,12 +1,21 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useState, ChangeEvent, FormEvent } from "react";
 import Navbar from "../layout/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createUser } from "../redux/features/user/userSlice";
+import { INewUser } from "../types/globalTypes";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  console.log("🚀 ~ file: SignUp.tsx:18 ~ SignUp ~ isLoading:", isLoading)
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -20,22 +29,22 @@ const SignUp = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setPasswordError("Passwords do not match");
       return;
     }
-    // Perform signup logic here
-    console.log("Signup form submitted");
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-    // Reset the form
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setPasswordError("");
+    setIsLoading(true);
+    try {
+      const formData: INewUser = { email, password, confirmPassword };
+      await dispatch(createUser(formData) as any);
+      console.log("Signup successful!");
+      navigate("/login");
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
+    setIsLoading(false);
   };
 
   return (

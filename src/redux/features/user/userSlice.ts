@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IApiResponse, IUser } from "../../../types/globalTypes";
+import { IApiResponse, INewUser, IUser } from "../../../types/globalTypes";
 
 interface IUserState {
   userId: string;
@@ -18,14 +21,24 @@ const initialUserState: IUserState = {
   error: null,
 };
 
-/* export const createUser = createAsyncThunk(
+export const createUser = createAsyncThunk(
   "user/createUser",
-  async ({ email, password }: ICredential) => {
-    const data = await createUserWithEmailAndPassword(auth, email, password);
+  async ({ email, password, confirmPassword }: INewUser) => {
+    const response = await fetch(`https://book-api-shihab17.vercel.app/api/v1/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, confirmPassword }),
+    });
 
-    return data.user.email;
+    const apiResponse = await response.json();
+    if (!response.ok) {
+      throw new Error(apiResponse?.message);
+    }
+    return apiResponse;
   }
-); */
+);
 
 export const login = createAsyncThunk(
   "user/loginUser",
