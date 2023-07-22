@@ -39,7 +39,7 @@ const BookList = () => {
   };
 
   const handleDelete = (id?: string) => {
-    // console.log(`Delete item with ID ${id}`);
+    console.log(`Delete item with ID ${id!}`);
   };
   return (
     <div>
