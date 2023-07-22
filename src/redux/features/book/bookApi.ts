@@ -1,5 +1,10 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { IBook } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
+import { RootState } from "../../store";
+const getAuthorizationToken = (state: RootState) => state.user.accessToken;
 interface GetBooksParams {
     page?: number;
     searchTerm?: string;
