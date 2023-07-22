@@ -13,6 +13,7 @@ type PostBookResponse = {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1" }),
+  tagTypes: ['books'],
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: ({
@@ -31,6 +32,7 @@ export const api = createApi({
         }
         return query;
       },
+      providesTags: ['books']
     }),
     singleBook: builder.query({
       query: (id: string) => `/book/${id}`,
@@ -41,6 +43,7 @@ export const api = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ['books']
     }),
     updateBook: builder.mutation<PostBookResponse, { data: IBook }>({
       query: ({ id, data }: { id: string; data: IBook }) => ({
